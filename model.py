@@ -33,21 +33,27 @@ class Route(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     total_stops = db.Column(db.Integer, nullable=False)
     user = db.relationship('User', back_populates="routes")
+    locations = db.relationship('Route_location', back_populates="routes")
 
     def __repr__(self):
         return f"<Route id={self.route_id} User id={self.user_id} Total stops={self.total_stops}"
 
-class Location_type(db.Model):
-    """The type of location"""
-
-    __tablename__ = 
 
 class Location(db.Model):
     """A location."""
 
     __tablename__ = "locations"
     location_id = db.Column(db.Integer, autoincrement=true, primary_key=true)
+    coordinates = db.Column(db.String, nullable=False)
+    location_name = db.Column(db.String, nullable=False)
+    city = db.Column(db.String)
+    state = db.Column(db.String(2))
+    zipcode = db.Column(db.String(10))
+    routes = db.relationship("Route_location", back_populates="locations")
+    features = db.relationship("Feature", secondary=location_features)
 
+    def __repr__(self):
+        return f"<Location id={self.location_id} Name={self.location_name} City={self.city}>"
 
 class Route_location(db.Model):
     """A route location. Linkage between route and location classes."""
@@ -58,8 +64,31 @@ class Route_location(db.Model):
                                   autoincrement=true,
                                   primary_key=true)
     route_id = db.Column(db.Integer, db.ForeignKey('routes.route_id'))
-    location_id = db.Column(db)
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.location_id'))
+    stop_number = db.Column(db.Integer)
+    route = db.relationship("Route", back_populates="locations")
+    location = db.relationship("Location", back_populates="routes")
 
+    def __repr__(self):
+        return f"""<Route location id = {self.route_location_id} Route id = {self.route_id} 
+        Location id = {self.location_id} Stop number = {self.stop_number}>"""
+
+class Feature(db.Model):
+    """A feature that a location can have. Could be something like restaurant or bar, or could be karaoke, billiards, trendy, etc."""
+
+    __tablename__ = "features"
+
+    feature_id = db.Column(db.Integer, autoincrement=True, primary_key=true)
+    feature_name = db.Column(db.String)
+
+    def __repr__(self):
+        return f"<Feature id = {self.feature_id} feature name={self.feature_name}>"
+
+# Create an association table to connect locations and features
+location_features = db.Table('location_features', 
+                        db.Column('location_id', db.ForeignKey('locations.location_id'), primary_key=True),
+                        db.Column('route_id', db.ForeignKey('routes.route_id'), primary_key=True)
+                        )
 
 
 
