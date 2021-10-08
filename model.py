@@ -20,7 +20,7 @@ class User(db.Model):
     route = db.relationship('Route', back_populates="users")
 
     def __repr__(self):
-        return f"<User id={self.user_id} email={self.email}> 
+        return f"<User id={self.user_id} email={self.email}>" 
 
 class Route(db.Model):
     """A route"""
@@ -38,12 +38,17 @@ class Route(db.Model):
     def __repr__(self):
         return f"<Route id={self.route_id} User id={self.user_id} Total stops={self.total_stops}"
 
+# Create an association table to connect locations and features
+location_features = db.Table('location_features', 
+                        db.Column('location_id', db.ForeignKey('locations.location_id'), primary_key=True),
+                        db.Column('route_id', db.ForeignKey('routes.route_id'), primary_key=True)
+                        )
 
 class Location(db.Model):
     """A location."""
 
     __tablename__ = "locations"
-    location_id = db.Column(db.Integer, autoincrement=true, primary_key=true)
+    location_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     coordinates = db.Column(db.String, nullable=False)
     location_name = db.Column(db.String, nullable=False)
     city = db.Column(db.String)
@@ -61,8 +66,8 @@ class Route_location(db.Model):
     __tablename__ = "route_locations"
 
     route_location_id = db.Column(db.Integer,
-                                  autoincrement=true,
-                                  primary_key=true)
+                                  autoincrement=True,
+                                  primary_key=True)
     route_id = db.Column(db.Integer, db.ForeignKey('routes.route_id'))
     location_id = db.Column(db.Integer, db.ForeignKey('locations.location_id'))
     stop_number = db.Column(db.Integer)
@@ -78,17 +83,31 @@ class Feature(db.Model):
 
     __tablename__ = "features"
 
-    feature_id = db.Column(db.Integer, autoincrement=True, primary_key=true)
+    feature_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     feature_name = db.Column(db.String)
 
     def __repr__(self):
         return f"<Feature id = {self.feature_id} feature name={self.feature_name}>"
 
-# Create an association table to connect locations and features
-location_features = db.Table('location_features', 
-                        db.Column('location_id', db.ForeignKey('locations.location_id'), primary_key=True),
-                        db.Column('route_id', db.ForeignKey('routes.route_id'), primary_key=True)
-                        )
 
+def connect_to_db(flask_app, db_uri="postgresql:///crawl", echo=True):
+    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+    flask_app.config["SQLALCHEMY_ECHO"] = echo
+    flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+    db.app = flask_app
+    db.init_app(flask_app)
+
+    print("Connected to the db!")
+
+
+if __name__ == "__main__":
+    from server import app
+
+    # Call connect_to_db(app, echo=False) if program output gets
+    # too annoying; this will tell SQLAlchemy not to print out every
+    # query it executes.
+
+    connect_to_db(app)
 
 
