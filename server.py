@@ -2,7 +2,7 @@
 
 from flask import (Flask, render_template, request, flash, session, redirect)
 from model import connect_to_db
-
+import os
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
@@ -15,7 +15,7 @@ GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 def show_homepage():
     """View homepage"""
     
-    return render_template('index.html')
+    return render_template('index.html', GOOGLE_API_KEY=GOOGLE_API_KEY)
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
