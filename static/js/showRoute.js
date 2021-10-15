@@ -83,7 +83,7 @@ function initMap() {
     const crawlRoute = {
         origin: humphreyCoords,
         destination: biRiteCoords,
-        waypoints: [{location: burmaSuperStarCoords}],
+        waypoints: [{location: burmaSuperStarCoords}, {location: houseOfPancakesCoords}, {location: yankSingCoords}],
         travelMode: 'DRIVING',
     }
 
