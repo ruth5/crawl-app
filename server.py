@@ -11,27 +11,38 @@ app.jinja_env.undefined = StrictUndefined
 
 GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 
-# Try grabbing locations from the Places API on server side
-import requests
-url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=bakery&keyword=dessert&key={GOOGLE_API_KEY}"
 
-payload={}
-headers = {}
-
-response = requests.request("GET", url, headers=headers, data=payload)
-
-print(50 * "*")
-print(response.text)
-print(50 * "*")
 
 @app.route('/')
 def show_homepage():
     """View homepage"""
-
+    get_places()
 
 
     
     return render_template('index.html', GOOGLE_API_KEY=GOOGLE_API_KEY)
+
+def get_places():
+    """Get places from the places API."""
+    # Try grabbing locations from the Places API on server side
+    import requests
+    coordinates = '37.7749%2C-122.4194'
+    radius = '500'
+    place_type = 'bakery'
+    keyword = 'dessert'
+
+    #I think there's a built in method that will construct the query string for me. Should add that in at some point
+    url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={coordinates}&radius={radius}&type={place_type}&keyword={keyword}&key={GOOGLE_API_KEY}"
+
+    payload = {}
+    headers = {}
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    print(50 * "*")
+    print(response.text)
+    print(50 * "*")
+
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

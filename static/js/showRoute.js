@@ -80,10 +80,17 @@ function initMap() {
     const directionsRenderer = new google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
 
+    // const crawlRoute = {
+    //     origin: humphreyCoords,
+    //     destination: biRiteCoords,
+    //     waypoints: [{location: burmaSuperStarCoords}, {location: houseOfPancakesCoords}, {location: yankSingCoords}],
+    //     travelMode: 'DRIVING',
+    // }
+
     const crawlRoute = {
-        origin: humphreyCoords,
-        destination: biRiteCoords,
-        waypoints: [{location: burmaSuperStarCoords}, {location: houseOfPancakesCoords}, {location: yankSingCoords}],
+        origin: { placeId: "ChIJVSvIaJiAhYARwg6LgKkXkB0" },
+        destination: { placeId: "ChIJTbUmE5qAhYAR3Pp-88HmmFc" },
+        waypoints: [{ location:  {placeId: "ChIJa3aIDJyAhYARMPjFJtHsI5I"}}],
         travelMode: 'DRIVING',
     }
 
