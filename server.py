@@ -1,6 +1,6 @@
 """Server for crawl app."""
 
-from flask import (Flask, render_template, request, flash, session, redirect)
+from flask import (Flask, render_template, request, flash, session, redirect, jsonify)
 from model import connect_to_db
 import os
 from jinja2 import StrictUndefined
@@ -27,7 +27,7 @@ def get_places():
     # Try grabbing locations from the Places API on server side
     import requests
     coordinates = '37.7749%2C-122.4194'
-    radius = '500'
+    radius = '200'
     place_type = 'bakery'
     keyword = 'dessert'
 
@@ -40,8 +40,21 @@ def get_places():
     response = requests.request("GET", url, headers=headers, data=payload)
 
     print(50 * "*")
-    print(response.text)
+    # print(response.text)
+    # print(50 * "*")
+
+    place_list = response.text
+    print(place_list)
     print(50 * "*")
+
+
+
+# refer back to AJAX skills
+@app.route('/api/routes/<int:route_id>')
+def get_route(route_id):
+    """Return a route from the database as JSON."""
+
+
 
 
 if __name__ == "__main__":
