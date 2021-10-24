@@ -16,8 +16,6 @@ GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 @app.route('/')
 def show_homepage():
     """View homepage"""
-    get_places()
-
 
     
     return render_template('index.html', GOOGLE_API_KEY=GOOGLE_API_KEY)

@@ -16,8 +16,9 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
     first_name = db.Column(db.String)
     last_name = db.Column(db.String)
+    home_zip_code = db.Column(db.String)
 
-    route = db.relationship('Route', back_populates="users")
+    routes = db.relationship("Route", back_populates="user")
 
     def __repr__(self):
         return f"<User id={self.user_id} email={self.email}>" 
@@ -33,13 +34,14 @@ class Route(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     total_stops = db.Column(db.Integer, nullable=False)
     user = db.relationship('User', back_populates="routes")
-    locations = db.relationship('Route_location', back_populates="routes")
+
+    # locations = db.relationship('Route_location', back_populates="routes")
 
     def __repr__(self):
         return f"<Route id={self.route_id} User id={self.user_id} Total stops={self.total_stops}"
 
-# Create an association table to connect locations and features
-location_features = db.Table('location_features', 
+# Create an association table to connect locations and types
+location_types = db.Table('location_types', 
                         db.Column('location_id', db.ForeignKey('locations.location_id'), primary_key=True),
                         db.Column('route_id', db.ForeignKey('routes.route_id'), primary_key=True)
                         )
@@ -49,13 +51,14 @@ class Location(db.Model):
 
     __tablename__ = "locations"
     location_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    coordinates = db.Column(db.String, nullable=False)
-    location_name = db.Column(db.String, nullable=False)
-    city = db.Column(db.String)
+    google_place_id = db.Column(db.String)
+    coordinates = db.Column(db.String)
+    location_name = db.Column(db.String)
+    city = db.Column(db.String(50))
     state = db.Column(db.String(2))
     zipcode = db.Column(db.String(10))
-    routes = db.relationship("Route_location", back_populates="locations")
-    features = db.relationship("Feature", secondary=location_features)
+    # routes = db.relationship("Route_location", back_populates="locations")
+    # types = db.relationship("Type", secondary=location_types)
 
     def __repr__(self):
         return f"<Location id={self.location_id} Name={self.location_name} City={self.city}>"
@@ -70,24 +73,24 @@ class Route_location(db.Model):
                                   primary_key=True)
     route_id = db.Column(db.Integer, db.ForeignKey('routes.route_id'))
     location_id = db.Column(db.Integer, db.ForeignKey('locations.location_id'))
-    stop_number = db.Column(db.Integer)
-    route = db.relationship("Route", back_populates="locations")
-    location = db.relationship("Location", back_populates="routes")
+    stop_number = db.Column(db.Integer, nullable=False)
+    # route = db.relationship("Route", back_populates="route_locations")
+    # location = db.relationship("Location", back_populates="route_locations")
 
     def __repr__(self):
         return f"""<Route location id = {self.route_location_id} Route id = {self.route_id} 
         Location id = {self.location_id} Stop number = {self.stop_number}>"""
 
-class Feature(db.Model):
-    """A feature that a location can have. Could be something like restaurant or bar, or could be karaoke, billiards, trendy, etc."""
+class Type(db.Model):
+    """A type that a location can have. Could be something like restaurant or bar, or could be karaoke, billiards, trendy, etc."""
 
-    __tablename__ = "features"
+    __tablename__ = "types"
 
-    feature_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    feature_name = db.Column(db.String)
+    type_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    type_name = db.Column(db.String, nullable=False)
 
     def __repr__(self):
-        return f"<Feature id = {self.feature_id} feature name={self.feature_name}>"
+        return f"<Type id = {self.type_id} type  name={self.type_name}>"
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///crawl", echo=True):

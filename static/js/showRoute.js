@@ -2,43 +2,43 @@
 
 function initMap() {
     const routeCoords = [];
-    const humphreyCoords = {
-        lat: 37.75303451932446,
-        lng: -122.41187293853972,
-    };
-    routeCoords.push(humphreyCoords);
+    // const humphreyCoords = {
+    //     lat: 37.75303451932446,
+    //     lng: -122.41187293853972,
+    // };
+    // routeCoords.push(humphreyCoords);
 
-    const biRiteCoords = {
-        lat: 37.76175113473264,
-        lng: -122.42566335756337,
-    };
+    // const biRiteCoords = {
+    //     lat: 37.76175113473264,
+    //     lng: -122.42566335756337,
+    // };
 
-    routeCoords.push(biRiteCoords);
-    const houseOfPancakesCoords = {
-        lat: 37.7430759633752,
-        lng: -122.47613712502925,
-    };
-    routeCoords.push(houseOfPancakesCoords);
-
-
-    const burmaSuperStarCoords = {
-        lat: 37.7837765579607,
-        lng: -122.46273936046609,
-    };
-    routeCoords.push(burmaSuperStarCoords);
+    // routeCoords.push(biRiteCoords);
+    // const houseOfPancakesCoords = {
+    //     lat: 37.7430759633752,
+    //     lng: -122.47613712502925,
+    // };
+    // routeCoords.push(houseOfPancakesCoords);
 
 
-    const yankSingCoords = {
-        lat: 37.79279235853008,
-        lng: -122.39297750174063,
-    };
-    routeCoords.push(yankSingCoords);
+    // const burmaSuperStarCoords = {
+    //     lat: 37.7837765579607,
+    //     lng: -122.46273936046609,
+    // };
+    // routeCoords.push(burmaSuperStarCoords);
 
 
-    const cords = [humphreyCoords, biRiteCoords, houseOfPancakesCoords, burmaSuperStarCoords, yankSingCoords];
+    // const yankSingCoords = {
+    //     lat: 37.79279235853008,
+    //     lng: -122.39297750174063,
+    // };
+    // routeCoords.push(yankSingCoords);
+
+
+    // const cords = [humphreyCoords, biRiteCoords, houseOfPancakesCoords, burmaSuperStarCoords, yankSingCoords];
 
     const map = new google.maps.Map(document.querySelector('#map'), {
-        center: humphreyCoords,
+        center: { placeId: "ChIJVSvIaJiAhYARwg6LgKkXkB0" },
         zoom: 13,
     });
 
