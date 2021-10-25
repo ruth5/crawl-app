@@ -23,6 +23,30 @@ class User(db.Model):
     def __repr__(self):
         return f"<User id={self.user_id} email={self.email}>" 
 
+class Route_location(db.Model):
+    """A route location. Linkage between route and location classes."""
+
+    __tablename__ = "route_locations"
+
+    # use Association class example from https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html
+    # route_location_id = db.Column(db.Integer,
+    #                               autoincrement=True,
+    #                               primary_key=True)
+    route_id = db.Column(db.Integer, db.ForeignKey('routes.route_id'), primary_key=True)
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.location_id'), primary_key=True)
+    stop_number = db.Column(db.Integer, nullable=False)
+    # route = db.relationship("Route", back_populates="route_locations")
+    route = db.relationship("Route", back_populates="locations")
+
+    # location = db.relationship("Location", back_populates="route_locations")
+    location = db.relationship("Location", back_populates="routes")
+
+
+    def __repr__(self):
+        return f"""<Route location id = {self.route_location_id} Route id = {self.route_id} 
+        Location id = {self.location_id} Stop number = {self.stop_number}>"""
+
+
 class Route(db.Model):
     """A route"""
 
@@ -35,7 +59,7 @@ class Route(db.Model):
     total_stops = db.Column(db.Integer, nullable=False)
     user = db.relationship('User', back_populates="routes")
 
-    # locations = db.relationship('Route_location', back_populates="routes")
+    locations = db.relationship('Route_location', back_populates="route")
 
     def __repr__(self):
         return f"<Route id={self.route_id} User id={self.user_id} Total stops={self.total_stops}"
@@ -43,7 +67,7 @@ class Route(db.Model):
 # Create an association table to connect locations and types
 location_types = db.Table('location_types', 
                         db.Column('location_id', db.ForeignKey('locations.location_id'), primary_key=True),
-                        db.Column('route_id', db.ForeignKey('routes.route_id'), primary_key=True)
+                        db.Column('route_id', db.ForeignKey('routes.route_id'), primary_key=True),
                         )
 
 class Location(db.Model):
@@ -58,28 +82,12 @@ class Location(db.Model):
     state = db.Column(db.String(2))
     zipcode = db.Column(db.String(10))
     # routes = db.relationship("Route_location", back_populates="locations")
+    routes = db.relationship("Route_location", back_populates="location")
     # types = db.relationship("Type", secondary=location_types)
 
     def __repr__(self):
         return f"<Location id={self.location_id} Name={self.location_name} City={self.city}>"
 
-class Route_location(db.Model):
-    """A route location. Linkage between route and location classes."""
-
-    __tablename__ = "route_locations"
-
-    route_location_id = db.Column(db.Integer,
-                                  autoincrement=True,
-                                  primary_key=True)
-    route_id = db.Column(db.Integer, db.ForeignKey('routes.route_id'))
-    location_id = db.Column(db.Integer, db.ForeignKey('locations.location_id'))
-    stop_number = db.Column(db.Integer, nullable=False)
-    # route = db.relationship("Route", back_populates="route_locations")
-    # location = db.relationship("Location", back_populates="route_locations")
-
-    def __repr__(self):
-        return f"""<Route location id = {self.route_location_id} Route id = {self.route_id} 
-        Location id = {self.location_id} Stop number = {self.stop_number}>"""
 
 class Type(db.Model):
     """A type that a location can have. Could be something like restaurant or bar, or could be karaoke, billiards, trendy, etc."""
