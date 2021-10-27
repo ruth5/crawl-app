@@ -43,8 +43,7 @@ class Route_location(db.Model):
 
 
     def __repr__(self):
-        return f"""<Route location id = {self.route_location_id} Route id = {self.route_id} 
-        Location id = {self.location_id} Stop number = {self.stop_number}>"""
+        return f"""<Route id = {self.route_id} Location id = {self.location_id} Stop number = {self.stop_number}>"""
 
 
 class Route(db.Model):
@@ -62,12 +61,12 @@ class Route(db.Model):
     locations = db.relationship('Route_location', back_populates="route")
 
     def __repr__(self):
-        return f"<Route id={self.route_id} User id={self.user_id} Total stops={self.total_stops}"
+        return f"<Route id={self.route_id} User id={self.user_id} Total stops={self.total_stops}>"
 
 # Create an association table to connect locations and types
 location_types = db.Table('location_types', 
                         db.Column('location_id', db.ForeignKey('locations.location_id'), primary_key=True),
-                        db.Column('route_id', db.ForeignKey('routes.route_id'), primary_key=True),
+                        db.Column('type_id', db.ForeignKey('types.type_id'), primary_key=True),
                         )
 
 class Location(db.Model):
@@ -83,7 +82,7 @@ class Location(db.Model):
     zipcode = db.Column(db.String(10))
     # routes = db.relationship("Route_location", back_populates="locations")
     routes = db.relationship("Route_location", back_populates="location")
-    # types = db.relationship("Type", secondary=location_types)
+    types = db.relationship("Type", secondary=location_types)
 
     def __repr__(self):
         return f"<Location id={self.location_id} Name={self.location_name} City={self.city}>"
