@@ -35,11 +35,13 @@ class Route_location(db.Model):
     route_id = db.Column(db.Integer, db.ForeignKey('routes.route_id'), primary_key=True)
     location_id = db.Column(db.Integer, db.ForeignKey('locations.location_id'), primary_key=True)
     stop_number = db.Column(db.Integer, nullable=False)
-    # route = db.relationship("Route", back_populates="route_locations")
-    route = db.relationship("Route", back_populates="locations")
+    route = db.relationship("Route", back_populates="route_locations")
+    
+    # route = db.relationship("Route", back_populates="locations")
 
-    # location = db.relationship("Location", back_populates="route_locations")
-    location = db.relationship("Location", back_populates="routes")
+    location = db.relationship("Location", back_populates="route_locations")
+    
+    # location = db.relationship("Location", back_populates="routes")
 
 
     def __repr__(self):
@@ -58,7 +60,7 @@ class Route(db.Model):
     total_stops = db.Column(db.Integer, nullable=False)
     user = db.relationship('User', back_populates="routes")
 
-    locations = db.relationship('Route_location', back_populates="route")
+    route_locations = db.relationship('Route_location', back_populates="route")
 
     def __repr__(self):
         return f"<Route id={self.route_id} User id={self.user_id} Total stops={self.total_stops}>"
@@ -81,7 +83,9 @@ class Location(db.Model):
     state = db.Column(db.String(2))
     zipcode = db.Column(db.String(10))
     # routes = db.relationship("Route_location", back_populates="locations")
-    routes = db.relationship("Route_location", back_populates="location")
+    route_locations = db.relationship("Route_location", back_populates="location")
+    # routes = db.relationship("Route", secondary=route_locations)
+
     types = db.relationship("Type", secondary=location_types)
 
     def __repr__(self):
@@ -97,7 +101,7 @@ class Type(db.Model):
     type_name = db.Column(db.String, nullable=False)
 
     def __repr__(self):
-        return f"<Type id = {self.type_id} type  name={self.type_name}>"
+        return f"<Type id = {self.type_id} type name={self.type_name}>"
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///crawl", echo=True):
