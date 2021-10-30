@@ -99,7 +99,7 @@ class Type(db.Model):
     __tablename__ = "types"
 
     type_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    type_name = db.Column(db.String, nullable=False)
+    type_name = db.Column(db.String, nullable=False, unique=True)
 
     def __repr__(self):
         return f"<Type id = {self.type_id} type name={self.type_name}>"

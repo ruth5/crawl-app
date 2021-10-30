@@ -45,6 +45,16 @@ def create_route_location(route_id, location_id, stop_number):
 
     return route_location
 
+def create_type(type_name):
+    """Creates and returns a type"""
+
+    type_ = Type(type_name=type_name)
+
+    db.session.add(type_)
+    db.session.commit()
+
+    return type_
+
 
 if __name__ == '__main__':
     from server import app
