@@ -2,7 +2,6 @@
 
 from model import db, User, Route_location, Route, Location, Type, connect_to_db
 
-connect_to_db
 
 def create_user(email, password, first_name=None, last_name=None, home_zip_code=None):
     """Create and return a new user."""
@@ -54,6 +53,11 @@ def create_type(type_name):
     db.session.commit()
 
     return type_
+
+def get_user_by_email(email):
+    """Returns a user with that email if it exists, otherwise return None."""
+    
+    return User.query.filter_by(email=email).first()
 
 
 if __name__ == '__main__':
