@@ -12,6 +12,37 @@ src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&callback=ini
 
 {% block body %} 
 <h1>Welcome to Crawl!</h1>
+
+<h2>Create an Account</h2>
+<form action="/users" method="POST">
+  <p>
+    Email <input type="text" name="email">
+  </p>
+
+  <p>
+    Password <input type="password" name="password">
+  </p>
+
+  <p>
+    <input type="submit">
+  </p>
+</form>
+
+<h2>Log In</h2>
+<form action="/login" method="POST">
+  <p>
+    Email <input type="text" name="email">
+  </p>
+
+  <p>
+    Password <input type="password" name="password">
+  </p>
+
+  <p>
+    <input type="submit">
+  </p>
+</form>
+
 <p>What sort of crawl would you like to plan?</p>
 <section class="map">
     <div id="map"></div>
