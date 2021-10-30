@@ -35,10 +35,16 @@ def create_location(google_place_id, coordinates=None, location_name=None, city=
     return location
 
 
+def create_route_location(route_id, location_id, stop_number):
+    """Creates and returns a route location. This connects routes and locations and also records the stop number."""
 
+    route_location = Route_location(route_id=route_id, location_id=location_id, stop_number=stop_number)
 
-def create_route_location():
-    pass
+    db.session.add(route_location)
+    db.session.commit()
+
+    return route_location
+
 
 if __name__ == '__main__':
     from server import app

@@ -23,6 +23,7 @@ class User(db.Model):
     def __repr__(self):
         return f"<User id={self.user_id} email={self.email}>" 
 
+# might make sense to retitle this class "Stop"
 class Route_location(db.Model):
     """A route location. Linkage between route and location classes."""
 
