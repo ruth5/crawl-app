@@ -1,5 +1,23 @@
 'use strict';
 
+const form = document.querySelector('#routeinfo');
+
+
+form.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+    const routeZipCode = document.querySelector('#route-zipcode').value
+    console.log(routeZipCode)
+    if (routeZipCode) {
+        fetch(`/api/routes/${routeZipCode}`)
+            .then((response) => response.json())
+            .then((responseJSON => {
+                console.log(responseJSON)
+            }
+            ))
+    }
+}
+);
+
 function initMap() {
     const routeCoords = [];
     // const humphreyCoords = {

@@ -4,6 +4,8 @@ from flask import (Flask, render_template, request, flash, session, redirect, js
 from model import connect_to_db
 import crud
 import os
+import requests
+import json
 from jinja2 import StrictUndefined
 
 app = Flask(__name__)
@@ -55,38 +57,84 @@ def login_user():
 
     return redirect('/')
 
-def get_places():
+def get_coordinates(location):
+    """Get coordinates for a given location."""
+
+    url = "https://maps.googleapis.com/maps/api/geocode/json"
+    payload = {'address': location, 'key': GOOGLE_API_KEY}
+    req = requests.get(url, params=payload)
+    req_info = req.json()
+    coordinates = req_info["results"][0]["geometry"]["location"]
+
+    formatted_coords = f"""{coordinates['lat']}%2C{coordinates['lng']}"""
+
+    return formatted_coords
+
+# print(50 * ">")
+# print(get_coordinates("94040"))
+
+def get_places(coordinates = '37.7749%2C-122.4194'):
     """Get places from the places API."""
     # Try grabbing locations from the Places API on server side
-    import requests
-    coordinates = '37.7749%2C-122.4194'
-    radius = '200'
+
+    radius = '1500'
     place_type = 'bakery'
     keyword = 'dessert'
 
     #I think there's a built in method that will construct the query string for me. Should add that in at some point
     url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={coordinates}&radius={radius}&type={place_type}&keyword={keyword}&key={GOOGLE_API_KEY}"
 
+    # url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+
     payload = {}
+    # payload = {'location': coordinates, 'radius': radius, 'type': place_type, 'keyword': keyword, 'key': GOOGLE_API_KEY}
     headers = {}
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    print(50 * "*")
-    # print(response.text)
     # print(50 * "*")
 
     place_list = response.text
-    print(place_list)
-    print(50 * "*")
+    # type_of_response = type(place_list)
+    # print(type(place_list))
+    place_list = json.loads(place_list)
+    # print(place_list)
+    # print(50 * "*")
+    return place_list
 
 
 
-# refer back to AJAX skills
-@app.route('/api/routes/<int:route_id>')
-def get_route(route_id):
-    """Return a route from the database as JSON."""
-    pass
+
+@app.route('/api/routes/<int:route_zip_code>')
+def generate_route(route_zip_code):
+    """Generates a route based on user inputed zip code."""
+    # print("8" *50)
+    # print(route_zip_code)
+    coordinates = get_coordinates(route_zip_code)
+    places = get_places(coordinates)
+    # print(50 * ">")
+    # print(places)
+
+    num_stops = 2
+    place_ids = []
+
+    for i in range(num_stops):
+        place_ids.append(places['results'][i]['place_id'])
+    
+    print("8" *50)
+
+    print(place_ids)
+    
+    
+    if places:
+        return jsonify({
+            'place1': places['results'][0]['name']
+        })
+    else:
+        return jsonify({'status': 'error',
+                        'message': 'No places found for your criteria'})
+
+
 
 
 
