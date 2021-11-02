@@ -115,11 +115,12 @@ def generate_route(route_zip_code):
     # print(50 * ">")
     # print(places)
 
-    num_stops = 2
+    num_stops = 3
     place_ids = []
 
     for i in range(num_stops):
         place_ids.append(places['results'][i]['place_id'])
+        print(places['results'][i]['name'])
     
     print("8" *50)
 
@@ -128,7 +129,7 @@ def generate_route(route_zip_code):
     
     if places:
         return jsonify({
-            'place1': places['results'][0]['name']
+            'place_ids': place_ids
         })
     else:
         return jsonify({'status': 'error',

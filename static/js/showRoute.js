@@ -64,7 +64,7 @@ function initMap() {
                 .then((responseJSON => {
                     console.log(responseJSON)
                     const map = new google.maps.Map(document.querySelector('#map'), {
-                        center: { placeId: "ChIJVSvIaJiAhYARwg6LgKkXkB0" },
+                        center: { placeId: responseJSON["place_ids"][0] },
                         zoom: 13,
                     });
                 
@@ -77,9 +77,9 @@ function initMap() {
                 
                 
                     const crawlRoute = {
-                        origin: { placeId: "ChIJVSvIaJiAhYARwg6LgKkXkB0" },
-                        destination: { placeId: "ChIJTbUmE5qAhYAR3Pp-88HmmFc" },
-                        waypoints: [{ location:  {placeId: "ChIJa3aIDJyAhYARMPjFJtHsI5I"}}],
+                        origin: { placeId: responseJSON["place_ids"][0] },
+                        destination: { placeId: responseJSON["place_ids"][2] },
+                        waypoints: [{ location:  {placeId: responseJSON["place_ids"][1]}}],
                         travelMode: 'DRIVING',
                     }
                 
