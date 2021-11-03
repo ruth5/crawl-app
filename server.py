@@ -102,6 +102,29 @@ def get_places(coordinates = '37.7749%2C-122.4194'):
     # print(50 * "*")
     return place_list
 
+def make_nearest_neighbor_route(locations_set):
+    current_stop = locations_set.pop()
+    stop_number = 1
+    #add current stop as route location to database
+
+    min_duration = 100000
+    while len(locations_set) > 1:
+        for location in locations_set:
+            duration = calc_duration(current_stop.google_place_id, location.google_place_id)
+            if min_duration > duration:
+                min_duration = duration
+                nearest_neighbor = location
+        current_stop = nearest_neighbor
+        stop_number += 1
+        #add current stop as route location to database
+        locations_set.remove(current_stop)
+    final_stop = locations_set.pop()
+    stop_number+= 1
+    # add final stop to db
+
+
+    pass
+
 
 
 
