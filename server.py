@@ -66,12 +66,11 @@ def get_coordinates(location):
     req_info = req.json()
     coordinates = req_info["results"][0]["geometry"]["location"]
 
-    formatted_coords = f"""{coordinates['lat']}%2C{coordinates['lng']}"""
+    formatted_coords = f"""{coordinates['lat']},{coordinates['lng']}"""
+
 
     return formatted_coords
 
-# print(50 * ">")
-# print(get_coordinates("94040"))
 
 def get_places(coordinates = '37.7749%2C-122.4194'):
     """Get places from the places API."""
@@ -81,25 +80,15 @@ def get_places(coordinates = '37.7749%2C-122.4194'):
     place_type = 'bakery'
     keyword = 'dessert'
 
-    #I think there's a built in method that will construct the query string for me. Should add that in at some point
-    url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={coordinates}&radius={radius}&type={place_type}&keyword={keyword}&key={GOOGLE_API_KEY}"
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
 
-    # url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+    payload = {'location': coordinates, 'radius': radius, 'type': place_type, 'keyword': keyword, 'key': GOOGLE_API_KEY}
 
-    payload = {}
-    # payload = {'location': coordinates, 'radius': radius, 'type': place_type, 'keyword': keyword, 'key': GOOGLE_API_KEY}
-    headers = {}
+    req = requests.get(url, params=payload)
+    print(req.url)
 
-    response = requests.request("GET", url, headers=headers, data=payload)
+    place_list = req.json()
 
-    # print(50 * "*")
-
-    place_list = response.text
-    # type_of_response = type(place_list)
-    # print(type(place_list))
-    place_list = json.loads(place_list)
-    # print(place_list)
-    # print(50 * "*")
     return place_list
 
 def make_nearest_neighbor_route(locations_set):
