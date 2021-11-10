@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import crud
 from model import db, User, Route_location, Route, Location, Type, connect_to_db
 
 
@@ -21,9 +22,8 @@ def get_coordinates(location):
     return formatted_coords
 
 
-def get_places(coordinates = '37.7749%2C-122.4194'):
-    """Get places from the places API."""
-    # Try grabbing locations from the Places API on server side
+def get_places(coordinates = '37.7749,-122.4194', num_stops = 3):
+    """Get places from the places API given coordinates and number of stops. Saves the stops to the database as locations. Returns a list of location objects"""
 
     radius = '1500'
     place_type = 'bakery'
@@ -34,11 +34,19 @@ def get_places(coordinates = '37.7749%2C-122.4194'):
     payload = {'location': coordinates, 'radius': radius, 'type': place_type, 'keyword': keyword, 'key': GOOGLE_API_KEY}
 
     req = requests.get(url, params=payload)
-    print(req.url)
 
-    place_list = req.json()
 
-    return place_list
+    places = req.json()['results']
+
+    if len(places) < num_stops:
+        return None
+
+    locations = []
+    for i in range(num_stops):
+        new_location = crud.create_location(places[i]['place_id'], coordinates=f"{places[i]['geometry']['location']['lat']},{places[i]['geometry']['location']['lng']}", location_name=places[i]['name'])
+        locations.append(new_location)
+
+    return locations
 
 def make_nearest_neighbor_route(locations_set):
     current_stop = locations_set.pop()

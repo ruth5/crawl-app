@@ -64,23 +64,25 @@ def login_user():
 @app.route('/api/routes/<int:route_zip_code>')
 def generate_route(route_zip_code):
     """Generates a route based on user inputed zip code."""
-    # print("8" *50)
-    # print(route_zip_code)
+
     coordinates = get_coordinates(route_zip_code)
     places = get_places(coordinates)
-    # print(50 * ">")
-    # print(places)
 
-    num_stops = 3
+
+    # num_stops = 3
     place_ids = []
 
-    for i in range(num_stops):
-        place_ids.append(places['results'][i]['place_id'])
-        print(places['results'][i]['name'])
+    # for i in range(num_stops):
+    #     place_ids.append(places['results'][i]['place_id'])
+    #     print(places['results'][i]['name'])
     
-    print("8" *50)
+    # print("8" *50)
 
-    print(place_ids)
+    # print(place_ids)
+
+    for place in places:
+        place_ids.append(place.google_place_id)
+
     
     
     if places:

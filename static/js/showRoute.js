@@ -74,14 +74,30 @@ function initMap() {
                     // Directions Renderer draws directions on the map
                     const directionsRenderer = new google.maps.DirectionsRenderer();
                     directionsRenderer.setMap(map);
-                
+
+                    const place_ids = responseJSON["place_ids"]
+                    
+                    const first_stop = place_ids[0]
+                    const last_stop = place_ids[place_ids.length - 1]
+                    const waypoints = []
+                    for (let i = 1; i < (place_ids.length - 1); i += 1) {
+                        waypoints.push(place_ids[i])
+                    };
                 
                     const crawlRoute = {
-                        origin: { placeId: responseJSON["place_ids"][0] },
-                        destination: { placeId: responseJSON["place_ids"][2] },
-                        waypoints: [{ location:  {placeId: responseJSON["place_ids"][1]}}],
+                        origin: { placeId: first_stop },
+                        destination: { placeId: last_stop },
+                        // need to make this work with multiple waypoints
+                        waypoints: [{ location:  {placeId: waypoints[0]}}],
                         travelMode: 'DRIVING',
                     }
+                    // const crawlRoute = {
+                    //     origin: { placeId: responseJSON["place_ids"][0] },
+                    //     destination: { placeId: responseJSON["place_ids"][2] },
+                    //     waypoints: [{ location:  {placeId: responseJSON["place_ids"][1]}}],
+                    //     travelMode: 'DRIVING',
+                    // }
+                    console.log(crawlRoute)
                 
                     directionsService.route(crawlRoute, (response, status) => {
                         if (status === 'OK') {
