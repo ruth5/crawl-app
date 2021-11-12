@@ -81,14 +81,16 @@ function initMap() {
                     const last_stop = place_ids[place_ids.length - 1]
                     const waypoints = []
                     for (let i = 1; i < (place_ids.length - 1); i += 1) {
-                        waypoints.push(place_ids[i])
+                        let new_waypoint = {}
+                        new_waypoint["location"] = {placeId: place_ids[i]}
+                        waypoints.push(new_waypoint)
+                        console.log(waypoints)
                     };
                 
                     const crawlRoute = {
                         origin: { placeId: first_stop },
                         destination: { placeId: last_stop },
-                        // need to make this work with multiple waypoints
-                        waypoints: [{ location:  {placeId: waypoints[0]}}],
+                        waypoints: waypoints,
                         travelMode: 'DRIVING',
                     }
                     // const crawlRoute = {

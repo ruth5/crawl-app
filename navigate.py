@@ -22,7 +22,7 @@ def get_coordinates(location):
     return formatted_coords
 
 
-def get_places(coordinates = '37.7749,-122.4194', num_stops = 3):
+def get_places(coordinates = '37.7749,-122.4194', num_stops = 6):
     """Get places from the places API given coordinates and number of stops. Saves the stops to the database as locations. Returns a list of location objects"""
 
     radius = '1500'
@@ -43,9 +43,12 @@ def get_places(coordinates = '37.7749,-122.4194', num_stops = 3):
 
     locations = []
     for i in range(num_stops):
-        new_location = crud.create_location(places[i]['place_id'], coordinates=f"{places[i]['geometry']['location']['lat']},{places[i]['geometry']['location']['lng']}", location_name=places[i]['name'])
-        locations.append(new_location)
-
+        place_id = places[i]['place_id']
+        if crud.get_location_by_place_id(place_id):
+            locations.append(crud.get_location_by_place_id(place_id))
+        else:
+            new_location = crud.create_location(place_id, coordinates=f"{places[i]['geometry']['location']['lat']},{places[i]['geometry']['location']['lng']}", location_name=places[i]['name'])
+            locations.append(new_location)
     return locations
 
 def make_nearest_neighbor_route(locations_set):
@@ -74,5 +77,5 @@ def make_nearest_neighbor_route(locations_set):
 
 if __name__ == '__main__':
     from server import app
-    connect_to_db(app)
+    connect_to_db(app, echo=False)
 

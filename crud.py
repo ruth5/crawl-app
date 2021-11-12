@@ -59,7 +59,14 @@ def get_user_by_email(email):
     
     return User.query.filter_by(email=email).first()
 
+def get_location_by_place_id(google_place_id):
+    """Returns a location with that Google place_id if it exists, otherwise return None."""
+
+    return Location.query.filter_by(google_place_id=google_place_id).first()
+
+
+
 
 if __name__ == '__main__':
     from server import app
-    connect_to_db(app)
+    connect_to_db(app, echo=False)
