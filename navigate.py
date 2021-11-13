@@ -51,12 +51,21 @@ def get_places(coordinates = '37.7749,-122.4194', num_stops = 6):
             locations.append(new_location)
     return locations
 
+def calc_duration(location1, location2):
+    url = "https://maps.googleapis.com/maps/api/directions/json"
+    payload = {'origin': f'place_id:{location1.google_place_id}', 'destination': f'place_id:{location2.google_place_id}', 'key': GOOGLE_API_KEY}
+    req = requests.get(url, params=payload)
+
+    duration = req.json()["routes"][0]["legs"][0]["duration"]["value"]    
+    # time it takes in seconds to drive betwen locations
+    return duration
+
 def make_nearest_neighbor_route(locations_set):
     current_stop = locations_set.pop()
     stop_number = 1
     #add current stop as route location to database
 
-    min_duration = 100000
+    min_duration = 1000000
     while len(locations_set) > 1:
         for location in locations_set:
             duration = calc_duration(current_stop.google_place_id, location.google_place_id)
