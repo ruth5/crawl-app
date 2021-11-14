@@ -52,6 +52,8 @@ def get_places(coordinates = '37.7749,-122.4194', num_stops = 6):
     return locations
 
 def calc_duration(location1, location2):
+    """Takes in two location objects and returns the time it takes (in seconds) to drive between those two locations"""
+
     url = "https://maps.googleapis.com/maps/api/directions/json"
     payload = {'origin': f'place_id:{location1.google_place_id}', 'destination': f'place_id:{location2.google_place_id}', 'key': GOOGLE_API_KEY}
     req = requests.get(url, params=payload)
