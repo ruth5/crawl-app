@@ -22,7 +22,7 @@ def get_coordinates(location):
     return formatted_coords
 
 
-def get_places(coordinates = '37.7749,-122.4194', num_stops = 6):
+def get_places(coordinates = '37.7749,-122.4194', num_stops = 10):
     """Get places from the places API given coordinates and number of stops. Saves the stops to the database as locations. Returns a list of location objects"""
 
     radius = '1500'
@@ -41,14 +41,14 @@ def get_places(coordinates = '37.7749,-122.4194', num_stops = 6):
     if len(places) < num_stops:
         return None
 
-    locations = []
+    locations = set()
     for i in range(num_stops):
         place_id = places[i]['place_id']
         if crud.get_location_by_place_id(place_id):
-            locations.append(crud.get_location_by_place_id(place_id))
+            locations.add(crud.get_location_by_place_id(place_id))
         else:
             new_location = crud.create_location(place_id, coordinates=f"{places[i]['geometry']['location']['lat']},{places[i]['geometry']['location']['lng']}", location_name=places[i]['name'])
-            locations.append(new_location)
+            locations.add(new_location)
             # eventually should make locations a set
     return locations
 
@@ -64,27 +64,36 @@ def calc_duration(location1, location2):
     return duration
 
 def make_nearest_neighbor_route(locations_set):
+    if not locations_set:
+        return None
     current_stop = locations_set.pop()
     stop_number = 1
     #add current stop as route location to database
+    route = crud.create_route(len(locations_set))
+    crud.create_route_location(route.route_id, current_stop.location_id, stop_number)
+    locations_in_order = []
+    locations_in_order.append(current_stop)
 
-    min_duration = 1000000
     while len(locations_set) > 1:
+        min_duration = 1000000
         for location in locations_set:
             duration = calc_duration(current_stop, location)
             if min_duration > duration:
                 min_duration = duration
                 nearest_neighbor = location
         current_stop = nearest_neighbor
+
+
         stop_number += 1
-        #add current stop as route location to database
+        crud.create_route_location(route.route_id, current_stop.location_id, stop_number)
         locations_set.remove(current_stop)
+        locations_in_order.append(current_stop)
+
     final_stop = locations_set.pop()
     stop_number+= 1
-    # add final stop to db
+    locations_in_order.append(final_stop)
 
-
-    pass
+    return locations_in_order
 
 
 if __name__ == '__main__':
