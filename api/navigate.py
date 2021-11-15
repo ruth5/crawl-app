@@ -49,6 +49,7 @@ def get_places(coordinates = '37.7749,-122.4194', num_stops = 6):
         else:
             new_location = crud.create_location(place_id, coordinates=f"{places[i]['geometry']['location']['lat']},{places[i]['geometry']['location']['lng']}", location_name=places[i]['name'])
             locations.append(new_location)
+            # eventually should make locations a set
     return locations
 
 def calc_duration(location1, location2):
@@ -70,7 +71,7 @@ def make_nearest_neighbor_route(locations_set):
     min_duration = 1000000
     while len(locations_set) > 1:
         for location in locations_set:
-            duration = calc_duration(current_stop.google_place_id, location.google_place_id)
+            duration = calc_duration(current_stop, location)
             if min_duration > duration:
                 min_duration = duration
                 nearest_neighbor = location
