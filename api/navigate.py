@@ -22,7 +22,7 @@ def get_coordinates(location):
     return formatted_coords
 
 
-def get_places(coordinates = '37.7749,-122.4194', num_stops = 10):
+def get_places(coordinates = '37.7749,-122.4194', num_stops = 5):
     """Get places from the places API given coordinates and number of stops. Saves the stops to the database as locations. Returns a list of location objects"""
 
     radius = '1500'
@@ -47,7 +47,8 @@ def get_places(coordinates = '37.7749,-122.4194', num_stops = 10):
         if crud.get_location_by_place_id(place_id):
             locations.add(crud.get_location_by_place_id(place_id))
         else:
-            new_location = crud.create_location(place_id, coordinates=f"{places[i]['geometry']['location']['lat']},{places[i]['geometry']['location']['lng']}", location_name=places[i]['name'])
+            new_location = crud.create_location(place_id, coordinates=f"{places[i]['geometry']['location']}", location_name=places[i]['name'])
+            # new_location = crud.create_location(place_id, coordinates=f"{places[i]['geometry']['location']['lat']},{places[i]['geometry']['location']['lng']}", location_name=places[i]['name'])
             locations.add(new_location)
             # eventually should make locations a set
     return locations

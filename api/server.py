@@ -8,6 +8,7 @@ import os
 import requests
 import json
 from jinja2 import StrictUndefined
+from ast import literal_eval
 
 app = Flask(__name__)
 app.secret_key = 'saddfkjaksdjfka;lsdfzxcjewmr.,9324'
@@ -67,29 +68,16 @@ def generate_route(route_zip_code):
     """Generates a route based on user inputed zip code."""
 
     coordinates = get_coordinates(route_zip_code)
-    places = make_nearest_neighbor_route(get_places(coordinates))
+    locations = make_nearest_neighbor_route(get_places(coordinates))
 
-
-    # num_stops = 3
-    place_ids = []
-
-    # for i in range(num_stops):
-    #     place_ids.append(places['results'][i]['place_id'])
-    #     print(places['results'][i]['name'])
-    
-    # print("8" *50)
-
-    # print(place_ids)
-
-
-
+    location_info = []
     
     
-    if places:
-        for place in places:
-            place_ids.append(place.google_place_id)
+    if locations:
+        for location in locations:
+            location_info.append({"place_id": location.google_place_id, "coords": literal_eval(location.coordinates)})
         return jsonify({
-            'place_ids': place_ids
+            'locations': location_info
         })
     else:
         return jsonify({'status': 'error',

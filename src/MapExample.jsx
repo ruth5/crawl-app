@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   GoogleMap,
+  DirectionsRenderer,
   useJsApiLoader,
   // InfoWindow,
   Marker,
@@ -15,12 +16,22 @@ export default function MapExample() {
     googleMapsApiKey: "",
   });
 
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetch("/api/map_data")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setMapData(data);
+  //       setLoading(false);
+  //     });
+  // }, []);
+  const routeZipCode = "94110"
   useEffect(() => {
     setLoading(true);
-    fetch("/api/map_data")
+    fetch(`/api/routes/${routeZipCode}`)
       .then((response) => response.json())
-      .then((data) => {
-        setMapData(data);
+      .then((responseJSON) => {
+        setMapData(responseJSON);
         setLoading(false);
       });
   }, []);
@@ -41,8 +52,8 @@ export default function MapExample() {
     >
       {mapData.map((dataPoint) => (
         <Marker
-          key={dataPoint.id}
-          position={{ lat: dataPoint.cap_lat, lng: dataPoint.cap_long }}
+          key={dataPoint}
+          position={{ placeId: dataPoint, lng: dataPoint}}
         />
       ))}
     </GoogleMap>
