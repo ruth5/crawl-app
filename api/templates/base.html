@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- Declares the documents character encoding. UTF-8 is the only valid encoding for HTML5 documents -->
+        <meta charset="utf-8">
+        <!-- This tells the browser to to set the width of the page to follow the screen-width on the device -->
+        <meta name="viewport" content="width=device-width">
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        {% for msg in get_flashed_messages() %} 
+        <p class="flash-msg">
+            {{ msg }}
+        </p>
+        {% endfor %} 
+
+        {% block body %}{% endblock %}
+    </body>
+</html>

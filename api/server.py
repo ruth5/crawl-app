@@ -75,7 +75,7 @@ def generate_route(route_zip_code):
     
     if locations:
         for location in locations:
-            location_info.append({"place_id": location.google_place_id, "coords": literal_eval(location.coordinates)})
+            location_info.append({"place_id": location.google_place_id, "coords": literal_eval(location.coordinates), "name": location.location_name})
         return jsonify({
             'locations': location_info
         })
