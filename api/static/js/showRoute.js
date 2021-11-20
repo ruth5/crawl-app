@@ -122,10 +122,27 @@ function initMap() {
                         directionsService.route(crawlRoute, (response, status) => {
                             if (status === 'OK') {
                                 directionsRenderer.setDirections(response);
+                                const stopInfo = new google.maps.InfoWindow()
                                 // addMarker(`placeId: ${responseJSON["place_ids"][0]}`, map)
-                                addMarker(
-                                    places[0]["coords"]
-                                , map)
+                                for (let i=0; i < places.length; i++) {
+                                // const stopMarker = addMarker(
+                                //     places[i]["coords"]
+                                // , map);
+                                const stopMarker = new google.maps.Marker({
+                                    position: places[i]["coords"],
+                                    map: map,
+                                    });
+                                
+
+                                stopMarker.addListener('click', () => {
+                                    stopInfo.close();
+                                    stopInfo.setContent(`<h3> Crawl Stop #${i + 1} </h3> <p> ${places[i]["name"]} </p>`);
+                                    stopInfo.open(map, stopMarker);
+                                });
+                            }
+
+
+
     
                             }
                             else {
@@ -141,6 +158,11 @@ function initMap() {
     }
     );
         // Adds a marker to the map.
+    function addInfoWindow(content) {
+        new google.maps.InfoWindow({
+            content: content,
+        });
+    }
     function addMarker(location, map) {
         new google.maps.Marker({
         position: location,
