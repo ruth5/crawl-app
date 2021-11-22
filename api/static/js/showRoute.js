@@ -130,6 +130,7 @@ function initMap() {
                                 // , map);
                                 const stopMarker = new google.maps.Marker({
                                     position: places[i]["coords"],
+                                    label: `${i + 1}`,
                                     map: map,
                                     });
                                 

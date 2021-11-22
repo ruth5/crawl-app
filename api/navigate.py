@@ -22,16 +22,17 @@ def get_coordinates(location):
     return formatted_coords
 
 
-def get_places(coordinates = '37.7749,-122.4194', num_stops = 5):
+def get_places(coordinates = '37.7749,-122.4194', num_stops = 5, radius = '1500', place_type = 'restaurant', keyword = None):
     """Get places from the places API given coordinates and number of stops. Saves the stops to the database as locations. Returns a list of location objects"""
 
-    radius = '1500'
-    place_type = 'bakery'
-    keyword = 'dessert'
+    radius = radius
+    place_type = place_type 
 
     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
 
-    payload = {'location': coordinates, 'radius': radius, 'type': place_type, 'keyword': keyword, 'key': GOOGLE_API_KEY}
+    payload = {'location': coordinates, 'radius': radius, 'type': place_type, 'key': GOOGLE_API_KEY}
+    if keyword:
+        payload['keyword'] = keyword
 
     req = requests.get(url, params=payload)
 

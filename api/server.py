@@ -23,8 +23,20 @@ GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 def show_homepage():
     """View homepage"""
 
+    if "user_id" in session:
+        return redirect("my-crawl")
+
     
     return render_template('index.html', GOOGLE_API_KEY=GOOGLE_API_KEY)
+
+@app.route('/my-crawl')
+def show_crawl():
+
+    if "user_id" not in session:
+        return redirect('/')
+
+    return render_template('my-crawl.html', GOOGLE_API_KEY=GOOGLE_API_KEY)
+
 
 @app.route('/users', methods=['POST'])
 def create_account():
@@ -53,7 +65,7 @@ def login_user():
         flash("We don't have an account associated with that email")
     else: 
         if password == user.password:
-            session['logged_in_user_id'] = user.user_id
+            session['user_id'] = user.user_id
             flash(f"{user.email}, you're logged in!")
         else:
             flash("The password you provided is not correct")
@@ -63,11 +75,11 @@ def login_user():
 
 
 
-@app.route('/api/routes/<int:route_zip_code>')
-def generate_route(route_zip_code):
-    """Generates a route based on user inputed zip code."""
+@app.route('/api/routes/<crawl_start_location>')
+def generate_route(crawl_start_location):
+    """Generates a route based on user inputed location such as zip code or city name."""
 
-    coordinates = get_coordinates(route_zip_code)
+    coordinates = get_coordinates(crawl_start_location)
     locations = make_nearest_neighbor_route(get_places(coordinates))
 
     location_info = []

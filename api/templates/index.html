@@ -1,7 +1,6 @@
 {% extends 'base.html' %} 
 {% block title %}Crawl Home{% endblock %}
 {% block head %} 
-<link rel="stylesheet" href="/static/css/maps.css">
 
 
 {% endblock %}
@@ -39,20 +38,4 @@
   </p>
 </form>
 
-<p>What sort of crawl would you like to plan?</p>
-<form id="routeinfo">
-  <p>
-    Zip Code to start <input type="text" id="route-zipcode" name="route-zipcode">
-  </p>
-  <input type="submit">
-</form>
-<section class="map">
-    <div id="map"></div>
-</section>
-
-<script src="/static/js/showRoute.js"></script>
-<script 
-async defer
-src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&callback=initMap">
-</script>
 {% endblock %}
