@@ -57,9 +57,10 @@ function initMap() {
     form.addEventListener("submit", (evt) => {
         evt.preventDefault();
         const routeZipCode = document.querySelector('#route-zipcode').value
-        console.log(routeZipCode)
+        const routeKeyword = document.querySelector('#route-keyword').value
         if (routeZipCode) {
-            const queryString = new URLSearchParams({location: routeZipCode}).toString();
+            const queryString = new URLSearchParams({location: routeZipCode, keyword: routeKeyword}).toString();
+            console.log(queryString)
             fetch(`/api/routes?${queryString}`)
                 .then((response) => response.json())
                 .then((responseJSON => {

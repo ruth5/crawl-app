@@ -80,8 +80,9 @@ def generate_route():
     """Generates a route based on user inputed location such as zip code or city name."""
 
     crawl_start_location = request.args.get('location')
+    keyword = request.args.get('keyword')
     coordinates = get_coordinates(crawl_start_location)
-    locations = make_nearest_neighbor_route(get_places(coordinates))
+    locations = make_nearest_neighbor_route(get_places(coordinates = coordinates, keyword = keyword))
 
     location_info = []
     
