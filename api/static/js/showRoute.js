@@ -59,7 +59,8 @@ function initMap() {
         const routeZipCode = document.querySelector('#route-zipcode').value
         console.log(routeZipCode)
         if (routeZipCode) {
-            fetch(`/api/routes/${routeZipCode}`)
+            const queryString = new URLSearchParams({location: routeZipCode}).toString();
+            fetch(`/api/routes?${queryString}`)
                 .then((response) => response.json())
                 .then((responseJSON => {
                     if ("status" in responseJSON) {

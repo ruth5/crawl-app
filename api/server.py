@@ -75,10 +75,11 @@ def login_user():
 
 
 
-@app.route('/api/routes/<crawl_start_location>')
-def generate_route(crawl_start_location):
+@app.route('/api/routes')
+def generate_route():
     """Generates a route based on user inputed location such as zip code or city name."""
 
+    crawl_start_location = request.args.get('location')
     coordinates = get_coordinates(crawl_start_location)
     locations = make_nearest_neighbor_route(get_places(coordinates))
 
