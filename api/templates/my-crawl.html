@@ -1,37 +1,70 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% block title %}Crawl Home{% endblock %}
-{% block head %} 
+{% block head %}
 <link rel="stylesheet" href="/static/css/maps.css">
 
 
 {% endblock %}
 
-{% block body %} 
+{% block body %}
 <h1>Plan your Crawl!</h1>
 
 <p>What sort of crawl would you like to plan?</p>
 <form id="routeinfo">
-  <div class="row"> 
+  <div class="row">
     <div class="col">
       <label for="route-zipcode">Enter the zip code or city name where you'd like to plan a crawl</label>
-  
-     <input type="text" id="route-zipcode" name="route-zipcode">
-     <div class="col">
-      <label for="route-keyword">Enter a keyword that describes the type of crawl you'd like to plan (e.g. sushi, brewery, etc.)</label>
-  
-     <input type="text" id="route-keyword" name="route-keyword">
-  
-</div>
-  <input type="submit">
-</div>
+
+      <input type="text" id="route-zipcode" name="route-zipcode">
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="radius">How far from your entered zip code/city can the stops be?</label>
+        <select class="form-control" id="radius">
+          <option>0.5 miles</option>
+          <option>1 mile</option>
+          <option>2 miles</option>
+          <option>5 miles</option>
+          <option>10 miles</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-4">
+        <label for="place-type">What place type are you interested in?</label>
+        <select class="form-control" id="place-type">
+          <option>bakery</option>
+          <option>bar</option>
+          <option>cafe</option>
+          <option>restaurant</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label for="route-keyword">Enter a keyword that describes the type of crawl you'd like to plan (e.g. sushi,
+          brewery, etc.)</label>
+
+        <input type="text" id="route-keyword" name="route-keyword">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label for="num-stops">Number of crawl stops</label>
+        <input type="number" id="num-stops" name="num-stops" min="4" max="10">
+      </div>
+    </div>
+
+
+
+    <input type="submit">
+  </div>
 </form>
 <section class="map">
-    <div id="map"></div>
+  <div id="map"></div>
 </section>
 
 <script src="/static/js/showRoute.js"></script>
-<script 
-async defer
-src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&callback=initMap">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&callback=initMap">
 </script>
 {% endblock %}

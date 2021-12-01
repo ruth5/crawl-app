@@ -58,8 +58,12 @@ function initMap() {
         evt.preventDefault();
         const routeZipCode = document.querySelector('#route-zipcode').value
         const routeKeyword = document.querySelector('#route-keyword').value
+        const placeType = document.querySelector('#place-type').value
+        const radius = document.querySelector('#radius').value
+        const numStops = document.querySelector('#num-stops').value
+
         if (routeZipCode) {
-            const queryString = new URLSearchParams({location: routeZipCode, keyword: routeKeyword}).toString();
+            const queryString = new URLSearchParams({location: routeZipCode, radius: radius, keyword: routeKeyword, place_type: placeType, stops: numStops}).toString();
             console.log(queryString)
             fetch(`/api/routes?${queryString}`)
                 .then((response) => response.json())
