@@ -1,59 +1,13 @@
 'use strict';
 
-const form = document.querySelector('#routeinfo');
 
-
-// form.addEventListener("submit", (evt) => {
-//     evt.preventDefault();
-//     const routeZipCode = document.querySelector('#route-zipcode').value
-//     console.log(routeZipCode)
-//     if (routeZipCode) {
-//         fetch(`/api/routes/${routeZipCode}`)
-//             .then((response) => response.json())
-//             .then((responseJSON => {
-//                 console.log(responseJSON)
-//             }
-//             ))
-//     }
-// }
-// );
 
 function initMap() {
     const routeCoords = [];
-    // const humphreyCoords = {
-    //     lat: 37.75303451932446,
-    //     lng: -122.41187293853972,
-    // };
-    // routeCoords.push(humphreyCoords);
 
-    // const biRiteCoords = {
-    //     lat: 37.76175113473264,
-    //     lng: -122.42566335756337,
-    // };
-
-    // routeCoords.push(biRiteCoords);
-    // const houseOfPancakesCoords = {
-    //     lat: 37.7430759633752,
-    //     lng: -122.47613712502925,
-    // };
-    // routeCoords.push(houseOfPancakesCoords);
+    const form = document.querySelector('#routeinfo');
 
 
-    // const burmaSuperStarCoords = {
-    //     lat: 37.7837765579607,
-    //     lng: -122.46273936046609,
-    // };
-    // routeCoords.push(burmaSuperStarCoords);
-
-
-    // const yankSingCoords = {
-    //     lat: 37.79279235853008,
-    //     lng: -122.39297750174063,
-    // };
-    // routeCoords.push(yankSingCoords);
-
-
-    // const cords = [humphreyCoords, biRiteCoords, houseOfPancakesCoords, burmaSuperStarCoords, yankSingCoords];
     form.addEventListener("submit", (evt) => {
         evt.preventDefault();
         const routeZipCode = document.querySelector('#route-zipcode').value
@@ -79,7 +33,6 @@ function initMap() {
                     else {
                         console.log(responseJSON)
                         const map = new google.maps.Map(document.querySelector('#map'), {
-                            // center: { placeId: responseJSON["place_ids"][0] },
                             center: responseJSON["locations"][0]["coords"],
     
                             zoom: 13,
@@ -96,12 +49,11 @@ function initMap() {
                         );
                         directionsRenderer.setMap(map);
     
-                        // const place_ids = responseJSON["place_ids"]
+
                         const places = responseJSON["locations"]
     
                         
                         const first_stop = places[0]["place_id"]
-                        // const last_stop = place_ids[place_ids.length - 1]
                         const last_stop = places[places.length - 1]["place_id"]
     
                         const waypoints = []
@@ -117,23 +69,16 @@ function initMap() {
                             waypoints: waypoints,
                             travelMode: 'DRIVING',
                         }
-                        // const crawlRoute = {
-                        //     origin: { placeId: responseJSON["place_ids"][0] },
-                        //     destination: { placeId: responseJSON["place_ids"][2] },
-                        //     waypoints: [{ location:  {placeId: responseJSON["place_ids"][1]}}],
-                        //     travelMode: 'DRIVING',
-                        // }
+
                         console.log(crawlRoute)
                     
                         directionsService.route(crawlRoute, (response, status) => {
                             if (status === 'OK') {
                                 directionsRenderer.setDirections(response);
                                 const stopInfo = new google.maps.InfoWindow()
-                                // addMarker(`placeId: ${responseJSON["place_ids"][0]}`, map)
+
                                 for (let i=0; i < places.length; i++) {
-                                // const stopMarker = addMarker(
-                                //     places[i]["coords"]
-                                // , map);
+
                                 const stopMarker = new google.maps.Marker({
                                     position: places[i]["coords"],
                                     label: `${i + 1}`,
@@ -177,74 +122,19 @@ function initMap() {
         });
     }
 
-    // const map = new google.maps.Map(document.querySelector('#map'), {
-    //     center: { placeId: "ChIJVSvIaJiAhYARwg6LgKkXkB0" },
-    //     zoom: 13,
-    // });
-
-    // // const markers = []
-    // // for (const cord of cords) {
-    // //     markers.push(
-    // //         new google.maps.Marker({
-    // //             position: cord,
-    // //             map: map,
-    // //         })
-    // //     )
-
-    // // }
-
-    // // for (const marker of markers) {
-    // //     const markerInfo = `
-    // //     <p>
-    // //         Coordinates of this test marker:
-    // //         ${marker.position.lat()}
-    // //         ${marker.position.lng()}
-    // //     </p>
-    // //     `
-    // //         ;
-
-
-    // //     const infoWindow = new google.maps.InfoWindow({
-    // //         content: markerInfo,
-    // //         maxWidth: 200,
-    // //     });
-
-    // //     marker.addListener('click', () => {
-    // //         infoWindow.open(map, marker)
-    // //     })
-    // // }
-
-    // const directionsService = new google.maps.DirectionsService();
-
-    // // Directions Renderer draws directions on the map
-    // const directionsRenderer = new google.maps.DirectionsRenderer();
-    // directionsRenderer.setMap(map);
-
-    // // const crawlRoute = {
-    // //     origin: humphreyCoords,
-    // //     destination: biRiteCoords,
-    // //     waypoints: [{location: burmaSuperStarCoords}, {location: houseOfPancakesCoords}, {location: yankSingCoords}],
-    // //     travelMode: 'DRIVING',
-    // // }
-
-    // const crawlRoute = {
-    //     origin: { placeId: "ChIJVSvIaJiAhYARwg6LgKkXkB0" },
-    //     destination: { placeId: "ChIJTbUmE5qAhYAR3Pp-88HmmFc" },
-    //     waypoints: [{ location:  {placeId: "ChIJa3aIDJyAhYARMPjFJtHsI5I"}}],
-    //     travelMode: 'DRIVING',
-    // }
-
-    // directionsService.route(crawlRoute, (response, status) => {
-    //     if (status === 'OK') {
-    //         directionsRenderer.setDirections(response);
-    //     }
-    //     else {
-    //         alert(`Directions request unsuccessful due to ${status}`)
-    //     }
-    // });
-
-
-
-
 
 }
+
+// function saveRoute() {
+//     saveRouteForm = document.querySelector('#save-crawl');
+
+//     saveRouteForm.addEventListener("submit", (evt) => {
+//         evt.preventDefault();
+//         const crawlName = document.querySelector('#crawl-name').value;
+//         if (crawlName) {
+
+//         }
+
+
+//     })
+// }

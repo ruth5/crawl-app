@@ -59,12 +59,20 @@ def get_user_by_email(email):
     
     return User.query.filter_by(email=email).first()
 
+def get_user_by_id(user_id):
+    """Returns a user with that id if it exists, otherwise return None."""
+    
+    return User.query.filter_by(user_id=user_id).first()
+
 def get_location_by_place_id(google_place_id):
     """Returns a location with that Google place_id if it exists, otherwise return None."""
 
     return Location.query.filter_by(google_place_id=google_place_id).first()
 
+def get_route_by_id(route_id):
+    """Returns the route with the given route id, otherwise return None."""
 
+    return Route.query.filter_by(route_id=route_id).first()
 
 
 if __name__ == '__main__':

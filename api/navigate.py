@@ -68,10 +68,11 @@ def calc_duration(location1, location2):
 def make_nearest_neighbor_route(locations_set):
     if not locations_set:
         return None
+    route = crud.create_route(len(locations_set))
+
     current_stop = locations_set.pop()
     stop_number = 1
     #add current stop as route location to database
-    route = crud.create_route(len(locations_set))
     crud.create_route_location(route.route_id, current_stop.location_id, stop_number)
     locations_in_order = []
     locations_in_order.append(current_stop)
@@ -93,9 +94,12 @@ def make_nearest_neighbor_route(locations_set):
 
     final_stop = locations_set.pop()
     stop_number+= 1
-    locations_in_order.append(final_stop)
+    crud.create_route_location(route.route_id, final_stop.location_id, stop_number)
 
-    return locations_in_order
+    locations_in_order.append(final_stop)
+    route_info = {"route": route, "locations_in_order": locations_in_order}
+
+    return route_info
 
 
 if __name__ == '__main__':

@@ -59,6 +59,8 @@ class Route(db.Model):
                         primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     total_stops = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.String)
+
     user = db.relationship('User', back_populates="routes")
 
     route_locations = db.relationship('Route_location', back_populates="route")
