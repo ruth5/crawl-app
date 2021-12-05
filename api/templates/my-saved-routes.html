@@ -1,0 +1,21 @@
+{% extends 'base.html' %} 
+{% block title %}My Saved Routes{% endblock %}
+{% block head %} 
+
+
+{% endblock %}
+
+{% block body %} 
+
+<h1>My Saved Routes</h1>
+<br>
+<ul>
+  {% for route in routes %}
+  <h2> {{ route.description }} </h2>
+  {% for route_location in route.route_locations %} 
+  <li> {{route_location.location.location_name}} </li>
+  {% endfor %}
+  <br>
+  {% endfor %}
+</ul>
+{% endblock %}

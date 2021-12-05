@@ -1,7 +1,7 @@
 """Server for crawl app."""
 
 from flask import (Flask, render_template, request, flash, session, redirect, jsonify, send_from_directory)
-from model import connect_to_db
+from model import db, connect_to_db
 import crud
 from navigate import (get_coordinates, get_places, make_nearest_neighbor_route, calc_duration)
 import os
@@ -45,8 +45,11 @@ def save_crawl():
     crawl_route_name = request.form.get('crawl-name')
     user = crud.get_user_by_id(session["user_id"])
     route = crud.get_route_by_id(session['current_route_id'])
+    # can move to crud file if desired
     route.user_id = int(session["user_id"])
+    # can move to crud file if desired
     route.description = crawl_route_name
+    db.session.commit()
 
     # route_locations = route.route_locations
     # for route_location in route_locations:
@@ -121,6 +124,21 @@ def generate_route():
     else:
         return jsonify({'status': 'error',
                         'message': 'No places found for your criteria'})
+
+@app.route('/my-saved-routes')
+def show_saved_routes_by_user():
+    """Show the saved routes for the user who is currently logged in."""
+
+    if "user_id" not in session:
+        return redirect('/')
+    else:
+        print(session["user_id"])
+        current_user = crud.get_user_by_id(session["user_id"])
+        print(current_user)
+        user_routes = current_user.routes
+        print(user_routes)
+
+    return render_template('my-saved-routes.html', routes = user_routes)
 
 @app.route('/api/saved-routes')
 def get_saved_route():
