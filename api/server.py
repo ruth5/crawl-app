@@ -37,6 +37,15 @@ def show_crawl():
 
     return render_template('my-crawl.html', GOOGLE_API_KEY=GOOGLE_API_KEY)
 
+@app.route('/log-out')
+def clear_session():
+
+    if "user_id" in session:
+        session.clear()
+        flash("You have been logged out.")
+
+    return redirect('/')
+
 @app.route('/my-crawl', methods = ['POST'])
 def save_crawl():
     """Gets the crawl name from the saving route forms and adds the crawl name 
@@ -140,13 +149,28 @@ def show_saved_routes_by_user():
 
     return render_template('my-saved-routes.html', routes = user_routes)
 
-@app.route('/api/saved-routes')
+@app.route('/routes/<route_id>')
 def get_saved_route():
     """Returns location info for a saved route"""
     #Need to add in a way for users to identify their route - they should enter a name so this shows on the saved routes page. 
-
-    pass
-
+    pass 
+    # route_info = make_nearest_neighbor_route(get_places(coordinates = coordinates, num_stops = num_stops, radius = str(radius_in_meters), place_type = place_type, keyword = keyword))
+    #     locations = route_info["locations_in_order"]
+    #     route = route_info["route"]
+    #     location_info = []
+        
+        
+    #     if locations:
+    #         session['current_route_id'] = route.route_id
+    #         for location in locations:
+    #             location_info.append({"place_id": location.google_place_id, "coords": literal_eval(location.coordinates), "name": location.location_name})
+    #         return jsonify({
+    #             'locations': location_info
+    #         })
+    #     else:
+    #         return jsonify({'status': 'error',
+    #                         'message': 'No places found for your criteria'})
+    
 
 
 
