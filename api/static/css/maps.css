@@ -3,21 +3,21 @@
     width: 100%;
 }
 
-body {Font-Family: 'Overpass', Sans-Serif;
-    Font-Size: 17px;
+body {Font-Family: 'Lato', Sans-Serif;
+    Font-Size: 16px;
     color: #031424
 }
 
 
 h1 {
-    Font-Family: 'Permanent Marker', Cursive;
-    Font-Size: 55px;
+    Font-Family: 'Arvo', Serif;
+    Font-Size: 44px;
     color:#30415D
 
 }
 
 h2, h3, h4, h5, h6 {
-    font-weight:700;
+    Font-Family: 'Lato', Sans-Serif;
     color:#CF6766
 }
 /* 
