@@ -3,22 +3,39 @@
     width: 100%;
 }
 
-body {Font-Family: 'Lato', Sans-Serif;
+body {    Font-Family: 'Cabin', Sans-Serif;
     Font-Size: 16px;
     color: #031424
 }
 
 
 h1 {
-    Font-Family: 'Arvo', Serif;
-    Font-Size: 44px;
+    Font-Family: 'Roboto Condensed', Sans-Serif;
+    Font-Size: 50px;
     color:#30415D
 
 }
 
 h2, h3, h4, h5, h6 {
-    Font-Family: 'Lato', Sans-Serif;
-    color:#CF6766
+    Font-Family: 'Cabin', Sans-Serif;
+
+    color:#7E95B4
+}
+
+/* .btn-primary {
+    background-color: #CF6766 !important;
+} */
+
+
+.btn-primary {
+    background-color: #CF6766  !important;
+    border-color: #CF6766 !important;
+}
+
+btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #7E95B4  !important;
+    border-color: #7E95B4  !important;
+
 }
 /* 
 #routeinfo {
