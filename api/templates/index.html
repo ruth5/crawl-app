@@ -1,12 +1,16 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% block title %}Crawl Home{% endblock %}
-{% block head %} 
+{% block head %}
 
 
 {% endblock %}
 
-{% block body %} 
-
+{% block body %}
+<div class="row">
+  <div class="col-12 ml-20">
+<h1>Welcome to Crawl</h1>
+</div>
+</div>
 <div class="container-fluid">
 
   <div class="row">
@@ -14,42 +18,46 @@
       <img src="/static/img/friends_at_bar.jpg" class="img-fluid">
     </div>
     <div class="col-3">
-<h1>Welcome to Crawl</h1>
 
-<h2>Log In</h2>
-<form action="/login" method="POST">
-  <p>
-    Email <input type="text" name="email">
-  </p>
 
-  <p>
-    Password <input type="password" name="password">
-  </p>
+      <h2>Log In</h2>
+      <row>
+      <form action="/login" method="POST">
+        <div class="mb-3">
+          <label for="email" class="form-label"> Email </label>
+          <input type="email" class="form-control" name="email">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label"> Password </label>
+          <input type="password" class="form-control" name="password">
+        </div>
 
-  <p>
-    <button type="submit" class="btn btn-primary">Log In</button>
-  </p>
-</form>
+        <div class="mb-3">
+          <button type="submit" class="btn btn-primary">Log In</button>
+        </div>
+      </form>
 
-<p> - OR -</p>
+      <p> - OR -</p>
 
-<h2>Create an Account</h2>
-<form action="/users" method="POST">
-  <p>
-    Email <input type="text" name="email">
-  </p>
+      <h2>Create an Account</h2>
+      <form action="/users" method="POST">
+        <div class="mb-3">
+          <label for="email" class="form-label"> Email </label>
+          <input type="email" class="form-control" name="email">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label"> Password </label>
+          <input type="password" class="form-control" name="password">
+        </div>
 
-  <p>
-    Password <input type="password" name="password">
-  </p>
+        <div class="mb-3">
+          <button type="submit" class="btn btn-primary">Create Account</button>
+        </div>
+      </form>
+    </row>
 
-  <p>
-    <button type="submit" class="btn btn-primary shadow-none">Create Account</button>
-  </p>
-</form>
-
-</div>
-</div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
