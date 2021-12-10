@@ -6,14 +6,14 @@
 {% endblock %}
 
 {% block body %} 
-
+<div class="row mb-3 mx-2 p-2">
 <h1>My Saved Routes</h1>
-<br>
+</div>
 <ul>
   {% for route in routes %}
   <h2> {{ route.description }} </h2>
   {% for route_location in route.route_locations %} 
-  <li> {{route_location.location.location_name}} </li>
+  <p class="mx-2 mb-0"> {{route_location.stop_number}}. {{route_location.location.location_name}} </p>
   {% endfor %}
   <br>
   {% endfor %}
