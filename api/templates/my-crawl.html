@@ -6,60 +6,59 @@
 {% endblock %}
 
 {% block body %}
+<div class="row mb-3 p-2">
 <h1>Plan your Crawl</h1>
 
 <h3>What sort of crawl would you like to plan?</h3>
+</div>
 <form id="routeinfo">
-  <div class="row mb-3">
-  <div class="col-4">
+  <div class="row mb-3 p-2">
+  <div class="col-3">
       <label for="route-zipcode" class="form-label">Enter the zip code or city name</label>
-      <input type="text" class="form-control" id="route-zipcode" name="route-zipcode">
-    </div>
-    <div class="col-4">
+      <input type="text" class="form-control mb-3" id="route-zipcode" name="route-zipcode">
+
       <label for="num-stops" class="form-label">Number of crawl stops</label>
-      <input type="number" class="form-control" id="num-stops" name="num-stops" min="4" max="10">
-    </div>
-  </div>
-  <div class="row mb-4">
-    <div class="col-4">
+      <input type="number" class="form-control mb-3" id="num-stops" name="num-stops" min="4" max="10">
+
         <label for="radius" class="form-label">Crawl Radius</label>
-        <select class="form-control" id="radius">
+        <select class="form-control mb-3" id="radius">
           <option value="0.5">0.5 miles</option>
           <option value="1">1 mile</option>
           <option value="2">2 miles</option>
           <option value="5">5 miles</option>
           <option value="10">10 miles</option>
           </select>
-      </div>
-      <div class="col-4">
+
         <label for="place-type" class="form-label">What place type are you interested in?</label>
-        <select class="form-control" id="place-type">
+        <select class="form-control mb-3" id="place-type">
           <option>bakery</option>
           <option>bar</option>
           <option>cafe</option>
           <option>restaurant</option>
         </select>
-      </div>
-      </div>
-      <div class="col-8">
+
         <label for="route-keyword" class="form-label">Enter a keyword that describes the type of crawl (e.g. sushi,
           brewery, etc.)</label>
 
-        <input type="text" id="route-keyword" name="route-keyword">
-    </div>
+        <input type="text" class="form-control mb-3" id="route-keyword" name="route-keyword">
     <p>
     <button type="submit" class="btn btn-primary">Generate Crawl</button>
   </p>
   </div>
 </form>
+<div class="col-9">
 <section class="map mb-3">
   <div id="map"></div>
 </section>
+</div>
+</div>
+<div class="row p-2">
 <form class="form-inline" id="save-crawl" action="/my-crawl" method="POST">
   <input type="text" class="form-control mb-2 mr-sm-2" id="crawl-name" name="crawl-name"
     placeholder="Name for your Saved Crawl (e.g. SF Sushi Crawl)">
   <button type="submit" class="btn btn-primary mb-2">Save This Crawl</button>
 </form>
+</div>
 
 <!-- <button type="button" class="btn btn-primary">Save This Route</button> -->
 
