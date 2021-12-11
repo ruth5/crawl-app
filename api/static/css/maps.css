@@ -22,6 +22,15 @@ h2, h3, h4, h5, h6 {
     color:#7E95B4
 }
 
+#tagline {
+    Font-Family: 'Roboto Condensed', Sans-Serif;
+    Font-Size: 20px;
+}
+
+.nav-link, .navbar-brand {
+    color:#30415D !important;
+    }
+
 /* .btn-primary {
     background-color: #CF6766 !important;
 } */

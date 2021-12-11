@@ -146,6 +146,9 @@ def show_saved_routes_by_user():
         print(current_user)
         user_routes = current_user.routes
         print(user_routes)
+        for route in user_routes:
+            print(route.description)
+            print(route.route_locations)
 
     return render_template('my-saved-routes.html', routes = user_routes)
 
