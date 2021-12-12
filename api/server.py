@@ -150,31 +150,30 @@ def show_saved_routes_by_user():
             print(route.description)
             print(route.route_locations)
 
-    return render_template('my-saved-routes.html', routes = user_routes)
+    return render_template('my-saved-routes.html', routes = user_routes, GOOGLE_API_KEY=GOOGLE_API_KEY)
 
-@app.route('/routes/<route_id>')
-def get_saved_route():
+@app.route('/api/saved-routes/<route_id>')
+def get_saved_route(route_id):
     """Returns location info for a saved route"""
     #Need to add in a way for users to identify their route - they should enter a name so this shows on the saved routes page. 
-    pass
-        # locations = []
-        # route = get_route_by_id(route_id)
-        # for route_location in route.route_locations:
-        #     locations.append(route_location.location)
-        # location_info = []
-        
-        
-        # if locations:
-        #     session['current_route_id'] = route.route_id
-        #     for location in locations:
-        #         location_info.append({"place_id": location.google_place_id, "coords": literal_eval(location.coordinates), "name": location.location_name})
-        #     return jsonify({
-        #         'locations': location_info
-        #     })
-        # else:
-        #     return jsonify({'status': 'error',
-        #                     'message': 'No places found for your criteria'})
+    locations = []
+    route = crud.get_route_by_id(route_id)
+    for route_location in route.route_locations:
+        locations.append(route_location.location)
+    location_info = []
     
+    
+    if locations:
+        session['current_route_id'] = route.route_id
+        for location in locations:
+            location_info.append({"place_id": location.google_place_id, "coords": literal_eval(location.coordinates), "name": location.location_name})
+        return jsonify({
+            'locations': location_info
+        })
+    else:
+        return jsonify({'status': 'error',
+                        'message': 'No places found for your criteria'})
+
 
 
 

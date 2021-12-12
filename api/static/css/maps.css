@@ -5,25 +5,26 @@
 
 body {    Font-Family: 'Cabin', Sans-Serif;
     Font-Size: 16px;
-    color: #031424
+    color: #031424;
+    /* overflow-y:hidden; */
 }
 
 
 h1 {
     Font-Family: 'Roboto Condensed', Sans-Serif;
     Font-Size: 40px;
-    color:#30415D
+    color:#30415D;
 
 }
 
 h2, h3, h4, h5, h6 {
     Font-Family: 'Cabin', Sans-Serif;
 
-    color:#7E95B4
+    color:#7E95B4;
 }
 
 .info-window-name {
-    Font-Size: 20px
+    Font-Size: 20px;
 }
 
 #tagline {
