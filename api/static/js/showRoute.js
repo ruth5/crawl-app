@@ -6,6 +6,14 @@ function initMap() {
     const routeCoords = [];
 
     const form = document.querySelector('#routeinfo');
+    let map = new google.maps.Map(document.querySelector('#map'), {
+        center: {
+            "lat": 37.77361,
+            "lng": -122.421622
+        },
+
+        zoom: 13,
+    });
 
 
     form.addEventListener("submit", (evt) => {
@@ -32,7 +40,7 @@ function initMap() {
                     }
                     else {
                         console.log(responseJSON)
-                        const map = new google.maps.Map(document.querySelector('#map'), {
+                        map = new google.maps.Map(document.querySelector('#map'), {
                             center: responseJSON["locations"][0]["coords"],
     
                             zoom: 13,
@@ -88,7 +96,7 @@ function initMap() {
 
                                 stopMarker.addListener('click', () => {
                                     stopInfo.close();
-                                    stopInfo.setContent(`<h6> Crawl Stop #${i + 1} </h6> <p> ${places[i]["name"]} </p>`);
+                                    stopInfo.setContent(`<h5> Crawl Stop #${i + 1} </h5> <p class="info-window-name"> ${places[i]["name"]} </p>`);
                                     stopInfo.open(map, stopMarker);
                                 });
                             document.querySelector('#save-crawl').style.display = '';

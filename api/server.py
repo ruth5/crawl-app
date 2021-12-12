@@ -95,7 +95,7 @@ def login_user():
     else: 
         if password == user.password:
             session['user_id'] = user.user_id
-            flash(f"{user.email}, you're logged in!")
+            # flash(f"{user.email}, you're logged in!")
         else:
             flash("The password you provided is not correct")
 
@@ -156,23 +156,24 @@ def show_saved_routes_by_user():
 def get_saved_route():
     """Returns location info for a saved route"""
     #Need to add in a way for users to identify their route - they should enter a name so this shows on the saved routes page. 
-    pass 
-    # route_info = make_nearest_neighbor_route(get_places(coordinates = coordinates, num_stops = num_stops, radius = str(radius_in_meters), place_type = place_type, keyword = keyword))
-    #     locations = route_info["locations_in_order"]
-    #     route = route_info["route"]
-    #     location_info = []
+    pass
+        # locations = []
+        # route = get_route_by_id(route_id)
+        # for route_location in route.route_locations:
+        #     locations.append(route_location.location)
+        # location_info = []
         
         
-    #     if locations:
-    #         session['current_route_id'] = route.route_id
-    #         for location in locations:
-    #             location_info.append({"place_id": location.google_place_id, "coords": literal_eval(location.coordinates), "name": location.location_name})
-    #         return jsonify({
-    #             'locations': location_info
-    #         })
-    #     else:
-    #         return jsonify({'status': 'error',
-    #                         'message': 'No places found for your criteria'})
+        # if locations:
+        #     session['current_route_id'] = route.route_id
+        #     for location in locations:
+        #         location_info.append({"place_id": location.google_place_id, "coords": literal_eval(location.coordinates), "name": location.location_name})
+        #     return jsonify({
+        #         'locations': location_info
+        #     })
+        # else:
+        #     return jsonify({'status': 'error',
+        #                     'message': 'No places found for your criteria'})
     
 
 
