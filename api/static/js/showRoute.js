@@ -88,7 +88,7 @@ function initMap() {
 
                                 stopMarker.addListener('click', () => {
                                     stopInfo.close();
-                                    stopInfo.setContent(`<h3> Crawl Stop #${i + 1} </h3> <p> ${places[i]["name"]} </p>`);
+                                    stopInfo.setContent(`<h6> Crawl Stop #${i + 1} </h6> <p> ${places[i]["name"]} </p>`);
                                     stopInfo.open(map, stopMarker);
                                 });
                             document.querySelector('#save-crawl').style.display = '';
