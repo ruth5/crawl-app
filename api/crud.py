@@ -74,6 +74,12 @@ def get_route_by_id(route_id):
 
     return Route.query.filter_by(route_id=route_id).first()
 
+def get_stops_in_order_by_route_id(route_id):
+    """Returns route locations in order for the route with the given route id."""
+
+    route_locations = Route_location.query.filter_by(route_id=route_id).order_by(Route_location.stop_number)
+    return route_locations
+
 
 if __name__ == '__main__':
     from server import app

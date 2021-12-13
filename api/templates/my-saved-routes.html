@@ -38,12 +38,12 @@
 
 
       <!-- <ul> -->
-      {% for route in routes %}
-      <h2> {{ route.description }} </h2>
-      {% for route_location in route.route_locations %}
+      {% for route in route_info %}
+      <h2> {{ route["name"] }} </h2>
+      {% for route_location in route["route_locations"] %}
       <p class="mx-2 mb-0"> {{route_location.stop_number}}. {{route_location.location.location_name}} </p>
       {% endfor %}
-      <button type="submit" class="btn btn-primary mb-4 mt-2" id={{route.route_id}}>Show This Crawl</button>
+      <button type="submit" class="btn btn-primary mb-4 mt-2" id={{route["route_id"]}}>Show This Crawl</button>
       <br>
       {% endfor %}
       <!-- </ul> -->

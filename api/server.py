@@ -2,6 +2,7 @@
 
 from flask import (Flask, render_template, request, flash, session, redirect, jsonify, send_from_directory)
 from model import db, connect_to_db
+# from model import db, User, Route_location, Route, Location, Type, connect_to_db
 import crud
 from navigate import (get_coordinates, get_places, make_nearest_neighbor_route, calc_duration)
 import os
@@ -63,8 +64,8 @@ def save_crawl():
     # route_locations = route.route_locations
     # for route_location in route_locations:
     #     print(route_location.location)
-    flash('Thanks for saving your route!')
-    return redirect('/my-crawl')
+    # flash('Thanks for saving your route!')
+    return redirect('/my-saved-routes')
 
 
 @app.route('/users', methods=['POST'])
@@ -141,16 +142,20 @@ def show_saved_routes_by_user():
     if "user_id" not in session:
         return redirect('/')
     else:
-        print(session["user_id"])
         current_user = crud.get_user_by_id(session["user_id"])
-        print(current_user)
         user_routes = current_user.routes
-        print(user_routes)
+        route_info = []
+        # show the most recently saved first
+        user_routes.reverse()
         for route in user_routes:
-            print(route.description)
-            print(route.route_locations)
-
-    return render_template('my-saved-routes.html', routes = user_routes, GOOGLE_API_KEY=GOOGLE_API_KEY)
+            route_object = {}
+            route_object["name"] = route.description
+            # without this line, route locations may not be sorted when they go to the jinja template
+            route_object["route_locations"] = crud.get_stops_in_order_by_route_id(route.route_id)
+            route_object["route_id"] = route.route_id
+            route_info.append(route_object)
+            
+    return render_template('my-saved-routes.html', route_info = route_info, GOOGLE_API_KEY=GOOGLE_API_KEY)
 
 @app.route('/api/saved-routes/<route_id>')
 def get_saved_route(route_id):
@@ -158,7 +163,8 @@ def get_saved_route(route_id):
     #Need to add in a way for users to identify their route - they should enter a name so this shows on the saved routes page. 
     locations = []
     route = crud.get_route_by_id(route_id)
-    for route_location in route.route_locations:
+    route_locations = crud.get_stops_in_order_by_route_id(route_id)
+    for route_location in route_locations:
         locations.append(route_location.location)
     location_info = []
     
