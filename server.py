@@ -2,7 +2,6 @@
 
 from flask import (Flask, render_template, request, flash, session, redirect, jsonify, send_from_directory)
 from model import db, connect_to_db
-# from model import db, User, Route_location, Route, Location, Type, connect_to_db
 import crud
 from navigate import (get_coordinates, get_places, make_nearest_neighbor_route, calc_duration)
 import os
