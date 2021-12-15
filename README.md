@@ -5,3 +5,11 @@ Crawl is a web app that seamlessly plans food and bar crawls for its users. Usin
 # Crawl Demo
 View a demo of the crawl app here: https://youtu.be/vndtpEUeun0
 
+
+# Structure
+- `server.py` contains Flask server setup and all routes
+- `navigate.py` contains functions related to creating and optimizing routes
+- `model.py` set up of database that stores information like user info, locations, and route info and their relationships
+- `crud.py` contains functions for interacting with the PostgreSQL database
+- `\static\js\showRoute.js` renders routes on map for route generation page
+- `\static\js\showSaveRoute.js` renders saved routes on map on saved routes page
