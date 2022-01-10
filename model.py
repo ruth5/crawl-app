@@ -23,27 +23,17 @@ class User(db.Model):
     def __repr__(self):
         return f"<User id={self.user_id} email={self.email}>" 
 
-# might make sense to retitle this class "Stop"
 class Route_location(db.Model):
-    """A route location. Linkage between route and location classes."""
+    """A route location. Linkage between route and location classes. A stop on a route."""
 
     __tablename__ = "route_locations"
 
-    # use Association class example from https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html
-    # route_location_id = db.Column(db.Integer,
-    #                               autoincrement=True,
-    #                               primary_key=True)
+
     route_id = db.Column(db.Integer, db.ForeignKey('routes.route_id'), primary_key=True)
     location_id = db.Column(db.Integer, db.ForeignKey('locations.location_id'), primary_key=True)
     stop_number = db.Column(db.Integer, nullable=False)
     route = db.relationship("Route", back_populates="route_locations")
-    
-    # route = db.relationship("Route", back_populates="locations")
-
     location = db.relationship("Location", back_populates="route_locations")
-    
-    # location = db.relationship("Location", back_populates="routes")
-
 
     def __repr__(self):
         return f"""<Route id = {self.route_id} Location id = {self.location_id} Stop number = {self.stop_number}>"""
@@ -85,9 +75,7 @@ class Location(db.Model):
     city = db.Column(db.String(50))
     state = db.Column(db.String(2))
     zipcode = db.Column(db.String(10))
-    # routes = db.relationship("Route_location", back_populates="locations")
     route_locations = db.relationship("Route_location", back_populates="location")
-    # routes = db.relationship("Route", secondary=route_locations)
 
     types = db.relationship("Type", secondary=location_types)
 
@@ -120,10 +108,6 @@ def connect_to_db(flask_app, db_uri="postgresql:///crawl", echo=True):
 
 if __name__ == "__main__":
     from server import app
-
-    # Call connect_to_db(app, echo=False) if program output gets
-    # too annoying; this will tell SQLAlchemy not to print out every
-    # query it executes.
 
     connect_to_db(app, echo=False)
 

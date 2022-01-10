@@ -37,7 +37,6 @@
     <div class="col-3 vh-100 overflow-auto">
 
 
-      <!-- <ul> -->
       {% for route in route_info %}
       <h2> {{ route["name"] }} </h2>
       {% for route_location in route["route_locations"] %}
@@ -46,7 +45,6 @@
       <button type="submit" class="btn btn-primary mb-4 mt-2" id={{route["route_id"]}}>Show This Crawl</button>
       <br>
       {% endfor %}
-      <!-- </ul> -->
     </div>
 
     <div class="col-9">

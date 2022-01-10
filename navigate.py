@@ -49,9 +49,8 @@ def get_places(coordinates = '37.7749,-122.4194', num_stops = 5, radius = '1500'
             locations.add(crud.get_location_by_place_id(place_id))
         else:
             new_location = crud.create_location(place_id, coordinates=f"{places[i]['geometry']['location']}", location_name=places[i]['name'])
-            # new_location = crud.create_location(place_id, coordinates=f"{places[i]['geometry']['location']['lat']},{places[i]['geometry']['location']['lng']}", location_name=places[i]['name'])
             locations.add(new_location)
-            # eventually should make locations a set
+
     return locations
 
 def calc_duration(location1, location2):
@@ -61,17 +60,20 @@ def calc_duration(location1, location2):
     payload = {'origin': f'place_id:{location1.google_place_id}', 'destination': f'place_id:{location2.google_place_id}', 'key': GOOGLE_API_KEY}
     req = requests.get(url, params=payload)
 
-    duration = req.json()["routes"][0]["legs"][0]["duration"]["value"]    
-    # time it takes in seconds to drive betwen locations
+    duration = req.json()["routes"][0]["legs"][0]["duration"]["value"]   
+
     return duration
 
 def make_nearest_neighbor_route(locations_set):
+    """Use the nearest neighbor algorithm to generate an optimized route from a given set of locations."""
+
     if not locations_set:
         return None
     route = crud.create_route(len(locations_set))
 
     current_stop = locations_set.pop()
     stop_number = 1
+
     #add current stop as route location to database
     crud.create_route_location(route.route_id, current_stop.location_id, stop_number)
     locations_in_order = []
@@ -85,8 +87,6 @@ def make_nearest_neighbor_route(locations_set):
                 min_duration = duration
                 nearest_neighbor = location
         current_stop = nearest_neighbor
-
-
         stop_number += 1
         crud.create_route_location(route.route_id, current_stop.location_id, stop_number)
         locations_set.remove(current_stop)

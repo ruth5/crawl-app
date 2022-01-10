@@ -1,8 +1,7 @@
-"""Seeds the database with users."""
+"""Seeds the database with 10 test users."""
 
 import os
-# from random import choice, randint
-# from datetime import datetime
+
 import crud, model, server
 
 os.system('dropdb crawl')
