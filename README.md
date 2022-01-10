@@ -13,3 +13,19 @@ View a demo of the crawl app here: https://youtu.be/vndtpEUeun0
 - `crud.py` contains functions for interacting with the PostgreSQL database
 - `\static\js\showRoute.js` renders routes on map for route generation page
 - `\static\js\showSavedRoute.js` renders saved routes on map on saved routes page
+
+# Running the app
+
+- Set up an activate a python virtual environment:
+    * `virtualenv env`
+    * `source env/bin/activate`
+- Install all dependencies:
+    * `pip3 install -r requirements.txt`
+- Obtain a Google API Key (free trial is available) and activate for the following four Google APIs: Geocoding, Places, Directions, Maps JavaScript
+    * [Click "get started" on this page](https://developers.google.com/maps)
+    * Set the following environmental variable to be your Google API Key: `GOOGLE_API_KEY`
+- Set up and seed the database
+    * run `python3 seed_database.py`
+- Start up the server and run the app!
+    * run `python3 server.py`
+    * Navigate `localhost:5001` to see the app in your browser
