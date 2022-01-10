@@ -80,6 +80,12 @@ def get_stops_in_order_by_route_id(route_id):
     route_locations = Route_location.query.filter_by(route_id=route_id).order_by(Route_location.stop_number)
     return route_locations
 
+def save_route_to_user_profile(route, user_id, description):
+    """Associate a user id and the user's entered description."""
+
+    route.user_id = user_id
+    route.description = description
+    db.session.commit()
 
 if __name__ == '__main__':
     from server import app

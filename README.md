@@ -12,4 +12,4 @@ View a demo of the crawl app here: https://youtu.be/vndtpEUeun0
 - `model.py` set up of database that stores information like user info, locations, and route info and their relationships
 - `crud.py` contains functions for interacting with the PostgreSQL database
 - `\static\js\showRoute.js` renders routes on map for route generation page
-- `\static\js\showSaveRoute.js` renders saved routes on map on saved routes page
+- `\static\js\showSavedRoute.js` renders saved routes on map on saved routes page

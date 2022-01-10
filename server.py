@@ -21,7 +21,7 @@ GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 
 @app.route('/')
 def show_homepage():
-    """View homepage"""
+    """View homepage. If a user has logged in, redirect to the crawl build page."""
 
     if "user_id" in session:
         return redirect("my-crawl")
@@ -31,6 +31,7 @@ def show_homepage():
 
 @app.route('/my-crawl')
 def show_crawl():
+    """Show the page where users can create a crawl. If a user has not logged in, redirect them to the homepage."""
 
     if "user_id" not in session:
         return redirect('/')
@@ -39,6 +40,7 @@ def show_crawl():
 
 @app.route('/log-out')
 def clear_session():
+    """Log out the user."""
 
     if "user_id" in session:
         session.clear()
@@ -48,22 +50,14 @@ def clear_session():
 
 @app.route('/my-crawl', methods = ['POST'])
 def save_crawl():
-    """Gets the crawl name from the saving route forms and adds the crawl name 
+    """Gets the crawl name from the saving route form and adds the crawl name 
     and the id of the current user to the route in the database."""
 
-    crawl_route_name = request.form.get('crawl-name')
-    user = crud.get_user_by_id(session["user_id"])
+    description = request.form.get('crawl-name')
     route = crud.get_route_by_id(session['current_route_id'])
-    # can move to crud file if desired
-    route.user_id = int(session["user_id"])
-    # can move to crud file if desired
-    route.description = crawl_route_name
-    db.session.commit()
+    user_id = int(session["user_id"])
+    crud.save_route_to_user_profile(route, user_id, description)
 
-    # route_locations = route.route_locations
-    # for route_location in route_locations:
-    #     print(route_location.location)
-    # flash('Thanks for saving your route!')
     return redirect('/my-saved-routes')
 
 
@@ -159,7 +153,7 @@ def show_saved_routes_by_user():
 @app.route('/api/saved-routes/<route_id>')
 def get_saved_route(route_id):
     """Returns location info for a saved route"""
-    #Need to add in a way for users to identify their route - they should enter a name so this shows on the saved routes page. 
+
     locations = []
     route = crud.get_route_by_id(route_id)
     route_locations = crud.get_stops_in_order_by_route_id(route_id)
